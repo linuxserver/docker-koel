@@ -1,0 +1,9 @@
+#!/usr/bin/with-contenv bash
+
+if [ ! -d /run/nginx ]; then
+	mkdir /run/nginx > /dev/null 2>&1
+fi
+
+kill -USR2 1
+php-fpm7
+exec /usr/sbin/nginx -g 'daemon off;'

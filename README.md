@@ -33,14 +33,14 @@ docker create \
   --name=koel \
   -v <path to data>:/config \
   -e PGID=<gid> -e PUID=<uid>  \
-  -e DB_CONNECTION=<DB_CONNECTION>
-  -e DB_HOST=<DB_HOST>
-  -e DB_DATABASE=<DB_DATABASE>
-  -e DB_USERNAME=<DB_USERNAME>
-  -e DB_PASSWORD=<DB_PASSWORD>
-  -e ADMIN_EMAIL=<ADMIN_EMAIL>
-  -e ADMIN_NAME=<ADMIN_NAME>
-  -e ADMIN_PASSWORD=<ADMIN_PASSWORD>
+  -e DB_CONNECTION=<DB_CONNECTION> \
+  -e DB_HOST=<DB_HOST> \
+  -e DB_DATABASE=<DB_DATABASE> \
+  -e DB_USERNAME=<DB_USERNAME> \
+  -e DB_PASSWORD=<DB_PASSWORD> \
+  -e ADMIN_EMAIL=<ADMIN_EMAIL> \
+  -e ADMIN_NAME=<ADMIN_NAME> \
+  -e ADMIN_PASSWORD=<ADMIN_PASSWORD> \
   -p 8000:80 \
   alexphillips/koel
 ```

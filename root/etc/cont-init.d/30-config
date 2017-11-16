@@ -29,6 +29,7 @@ if [ ! -f /config/.env ]; then
     sed -i 's|ADMIN_NAME=|ADMIN_NAME='$ADMIN_NAME'|g' ./.env
     sed -i 's|ADMIN_PASSWORD=|ADMIN_PASSWORD='$ADMIN_PASSWORD'|g' ./.env
     sed -i 's|/usr/local/bin/ffmpeg|/usr/bin/ffmpeg|g' ./.env
+    sed -i 's|STREAMING_METHOD=php|STREAMING_METHOD=x-accel-redirect|g' ./.env
 fi
 
 if [ ! -d /config/vendor ]; then

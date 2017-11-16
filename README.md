@@ -108,4 +108,4 @@ Access the WebUI at <your-ip>:80. For more information, check out [Koel](https:/
 
 |  Date | Changes |
 | :---: | --- |
-| 14.11.17 |  Initial Release. |
+| 15.11.17 |  Initial Release. |

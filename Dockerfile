@@ -36,7 +36,7 @@ RUN \
     php7-exif \
     php7-fileinfo \
     rsync \
-    sqlite
+    sqlite \
     yarn \
 
  # install composer

@@ -1,0 +1,52 @@
+#!/usr/bin/with-contenv bash
+
+# set default values for variables
+declare -A KOEL_CONF
+
+KOEL_CONF[DB_CONNECTION]=${DB_CONNECTION:-mysql}
+KOEL_CONF[DB_HOST]=${DB_HOST:-mariadb}
+KOEL_CONF[DB_PORT]=${DB_PORT:-3306}
+KOEL_CONF[DB_DATABASE]=${DB_DATABASE:-koel}
+KOEL_CONF[DB_USERNAME]=${DB_USERNAME:-root}
+KOEL_CONF[DB_PASSWORD]=${DB_PASSWORD:-}
+KOEL_CONF[APP_URL]=${APP_URL:-}
+
+rm /app/koel/.env 2>/dev/null
+ln -s /config/.env /app/koel/.env
+
+cd /app/koel
+
+# persist env variables
+FIRST_RUN="false"
+if [ ! -f "/config/.env" ]; then
+	FIRST_RUN="true"
+	cp /defaults/env /config/.env
+	# sed in values or skip if value not set
+	for KEY in "${!KOEL_CONF[@]}"; do \
+	if [[ ${KOEL_CONF[$KEY]} == "" ]]; then \
+	:
+	else sed -i 's|{{'$KEY'}}|'${KOEL_CONF[$KEY]}'|g' /config/.env
+	fi
+	done
+
+	/usr/bin/php artisan key:generate
+	/usr/bin/php artisan koel:generate-jwt-secret
+	/usr/bin/php artisan migrate --force
+	/usr/bin/php artisan db:seed --force
+
+	# This is just so the initial user gets created
+	/usr/bin/php /app/koel/artisan koel:init -n > /dev/null 2>&1
+fi
+
+[[ ! -e "/config/storage" ]] && \
+	mv /app/koel/storage /config/
+
+rm -rf /app/koel/storage
+ln -s /config/storage /app/koel/storage
+
+# permissions
+chmod -R 775 \
+	/config/storage
+chown -R abc:abc \
+	/app/koel \
+	/config
